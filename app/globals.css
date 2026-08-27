@@ -812,6 +812,108 @@ img {
   color: var(--pixel-text-secondary);
 }
 
+/* -- Side Quests -- */
+.pixel-side-quests {
+  padding-top: 2rem;
+  margin-bottom: 2rem;
+  min-height: 40vh;
+}
+
+.pixel-side-quests-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.pixel-eyebrow {
+  color: var(--pixel-text-secondary);
+  font-size: 0.5rem;
+  margin: 0 0 0.75rem;
+}
+
+.pixel-side-quests-heading h2 {
+  margin: 0;
+}
+
+.pixel-side-quests-intro {
+  max-width: 24rem;
+  margin: 0;
+  color: var(--pixel-text-secondary);
+  font-size: 0.625rem;
+}
+
+.pixel-side-quests-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.pixel-side-quest-card {
+  min-width: 0;
+  background: linear-gradient(135deg, var(--pixel-bg-panel), #102c50);
+}
+
+.pixel-side-quest-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.pixel-side-quest-icon {
+  color: var(--pixel-highlight);
+  font-family: var(--font-pixel-heading);
+  font-size: 1.25rem;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.8);
+}
+
+.pixel-side-quest-type {
+  color: var(--pixel-success);
+  font-size: 0.5rem;
+}
+
+.pixel-side-quest-title {
+  color: var(--pixel-text-primary);
+  font-size: 1rem;
+  margin: 0 0 0.75rem;
+}
+
+.pixel-side-quest-description {
+  max-width: 42rem;
+  color: var(--pixel-text-secondary);
+  font-size: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.pixel-side-quest-link {
+  display: inline-block;
+  margin-top: 1.25rem;
+  padding: 0.6rem 0.8rem;
+  color: var(--pixel-text-primary);
+  background: var(--pixel-accent);
+  font-size: 0.5rem;
+  text-decoration: none;
+}
+
+@media (min-width: 768px) {
+  .pixel-side-quests-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .pixel-side-quests-heading {
+    display: block;
+  }
+
+  .pixel-side-quests-intro {
+    margin-top: 1rem;
+  }
+}
+
 /* ── Section Divider ────────────────────────────────────────── */
 .pixel-section-divider {
   height: 2px;

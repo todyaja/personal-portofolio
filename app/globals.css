@@ -1040,6 +1040,134 @@ img {
   }
 }
 
+/* Running Journey preview uses the product's dashboard language, not the portfolio chrome. */
+.pixel-running-preview {
+  position: relative;
+  overflow: hidden;
+  padding: 1rem;
+  color: #1d2925;
+  background: #f5f2eb;
+  border: 1px solid #e5e1d8;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.22);
+  font-family: Arial, sans-serif;
+  image-rendering: auto;
+}
+
+.pixel-running-preview::after {
+  content: "";
+  position: absolute;
+  width: 12rem;
+  height: 12rem;
+  top: -8rem;
+  right: -4rem;
+  border-radius: 50%;
+  background: #ffffff80;
+  pointer-events: none;
+}
+
+.pixel-running-preview-bar {
+  position: relative;
+  z-index: 1;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid #e5e1d8;
+  color: #1d2925;
+  font-family: Arial, sans-serif;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  text-transform: lowercase;
+}
+
+.pixel-running-preview-bar i {
+  width: 0.35rem;
+  height: 0.35rem;
+  background: #f2663f;
+  box-shadow: none;
+}
+
+.pixel-running-preview-title {
+  position: relative;
+  z-index: 1;
+  margin: 1rem 0;
+  color: #1d2925;
+  font-family: Arial, sans-serif;
+  font-size: clamp(0.8rem, 2.3vw, 1.25rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.07em;
+}
+
+.pixel-running-preview-title b {
+  color: #f2663f;
+  font-family: Georgia, serif;
+  font-style: italic;
+  letter-spacing: -0.04em;
+}
+
+.pixel-running-preview-stats {
+  position: relative;
+  z-index: 1;
+  gap: 0.4rem;
+  margin-bottom: 0.7rem;
+}
+
+.pixel-running-preview-stats div {
+  padding: 0.55rem;
+  background: #fffdf9;
+  border: 1px solid #e5e1d8;
+}
+
+.pixel-running-preview-stats small,
+.pixel-running-preview-chart > span,
+.pixel-running-preview-runs > span {
+  color: #7b8179;
+  font-family: monospace;
+  font-size: 0.35rem;
+  letter-spacing: 0.08em;
+}
+
+.pixel-running-preview-stats strong {
+  margin-top: 0.3rem;
+  color: #1d2925;
+  font-family: Arial, sans-serif;
+  font-size: 0.5rem;
+}
+
+.pixel-running-preview-body {
+  position: relative;
+  z-index: 1;
+  gap: 0.7rem;
+}
+
+.pixel-running-preview-chart,
+.pixel-running-preview-runs {
+  padding: 0.65rem;
+  background: #fffdf9;
+  border: 1px solid #e5e1d8;
+}
+
+.pixel-running-preview-chart svg {
+  margin-top: 0.9rem;
+}
+
+.pixel-running-preview-chart path {
+  stroke: #f2663f;
+  stroke-width: 2.5;
+}
+
+.pixel-running-preview-runs b {
+  margin-top: 0.7rem;
+  color: #1d2925;
+  font-family: Arial, sans-serif;
+  font-size: 0.42rem;
+}
+
+.pixel-running-preview-runs em {
+  color: #7b8179;
+  font-family: Arial, sans-serif;
+  font-size: 0.55rem;
+}
+
 /* ── Section Divider ────────────────────────────────────────── */
 .pixel-section-divider {
   height: 2px;

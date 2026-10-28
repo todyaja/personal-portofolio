@@ -1,14 +1,14 @@
-const sideQuests = [
-  {
-    title: "My Running Journey",
-    type: "PERSONAL PRODUCT",
-    description:
-      "A focused running dashboard built while exploring Strava integrations, weekly analysis, and thoughtful product design.",
-    tags: ["Next.js", "Strava API", "AI", "Vercel"],
-    href: "https://strava-running-journey.vercel.app/",
-    cta: "OPEN RUNNING JOURNEY",
-  },
-];
+import type { ReactNode } from "react";
+
+type SideQuest = {
+  title: string;
+  type: string;
+  description: string;
+  tags: string[];
+  href: string;
+  cta: string;
+  preview: ReactNode;
+};
 
 function RunningJourneyPreview() {
   return (
@@ -27,6 +27,100 @@ function RunningJourneyPreview() {
     </div>
   );
 }
+
+type BoardStep = { who: "ai" | "you"; title: string; detail: string; active?: boolean };
+
+const JIRA_BOARD: { column: string; steps: BoardStep[] }[] = [
+  {
+    column: "PRD",
+    steps: [
+      { who: "ai", title: "prd-maker", detail: "writes PRD → Confluence" },
+      { who: "you", title: "PRD review", detail: "approve or comment" },
+    ],
+  },
+  {
+    column: "PLAN",
+    steps: [
+      { who: "ai", title: "tech-planner", detail: "reads repo, writes TRD" },
+      { who: "you", title: "Plan review", detail: "approve or comment" },
+    ],
+  },
+  {
+    column: "BUILD",
+    steps: [
+      { who: "ai", title: "engineer", detail: "codes in a git worktree", active: true },
+      { who: "ai", title: "code-reviewer", detail: "⇄ up to 3 rounds" },
+    ],
+  },
+  {
+    column: "SHIP",
+    steps: [
+      { who: "ai", title: "open PR", detail: "push feature/KEY-42" },
+      { who: "you", title: "PR review", detail: "you merge" },
+    ],
+  },
+];
+
+function JiraAgentPreview() {
+  return (
+    <div className="pixel-jira-preview" aria-label="Illustration: a Jira ticket moving across board columns while Claude Code agents do each step">
+      <div className="pixel-jira-preview-bar">
+        <span>JIRA BOARD</span>
+        <em>polling every 60s</em>
+      </div>
+      <div className="pixel-jira-preview-ticket">
+        <b>KEY-42</b> Add export to CSV <i>IMPLEMENTING</i>
+      </div>
+      <div className="pixel-jira-preview-board">
+        {JIRA_BOARD.map(({ column, steps }, i) => (
+          <div key={column} className="pixel-jira-preview-column">
+            <span className="pixel-jira-preview-column-title">
+              {column}
+              {i < JIRA_BOARD.length - 1 && <span aria-hidden="true"> →</span>}
+            </span>
+            {steps.map((step) => (
+              <div
+                key={step.title}
+                className={`pixel-jira-preview-step is-${step.who}${step.active ? " is-active" : ""}`}
+              >
+                <small>{step.who === "ai" ? "AI" : "YOU"}</small>
+                <strong>{step.title}</strong>
+                <span>{step.detail}</span>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+      <div className="pixel-jira-preview-terminal" aria-hidden="true">
+        <span>$ claude -p --agent software-engineer</span>
+        <span className="is-ok">✓ PR #12 opened · feature/KEY-42 → main</span>
+      </div>
+    </div>
+  );
+}
+
+const sideQuests: SideQuest[] = [
+  {
+    title: "My Running Journey",
+    type: "PERSONAL PRODUCT",
+    description:
+      "A focused running dashboard built while exploring Strava integrations, weekly analysis, and thoughtful product design.",
+    tags: ["Next.js", "Strava API", "AI", "Vercel"],
+    href: "https://strava-running-journey.vercel.app/",
+    cta: "OPEN RUNNING JOURNEY",
+    preview: <RunningJourneyPreview />,
+  },
+  {
+    title: "My Jira AI Agent",
+    type: "AI AUTOMATION",
+    description:
+      "A personal Go service that turns my Jira board into an AI workflow. Moving a ticket into a column hands it to a Claude Code agent for that step: it writes the PRD to Confluence, plans against the repo on my machine, codes in a git worktree, reviews its own work and opens the pull request. I only sign off on the PRD, the plan and the PR. It polls Jira from my laptop, so there's no server to host.",
+    tags: ["Go", "Claude Code", "Jira API", "Confluence", "GitHub API", "Git worktrees"],
+    href: "https://github.com/todyaja/my-jira-ai-agent",
+    cta: "VIEW ON GITHUB",
+    preview: <JiraAgentPreview />,
+  },
+];
 
 export default function SideQuestsSection() {
   return (
@@ -50,7 +144,7 @@ export default function SideQuestsSection() {
               <span className="pixel-side-quest-icon" aria-hidden="true">&gt;_</span>
               <span className="pixel-side-quest-type pixel-heading">{quest.type}</span>
             </div>
-            <RunningJourneyPreview />
+            {quest.preview}
             <h3 className="pixel-heading pixel-side-quest-title">{quest.title}</h3>
             <p className="pixel-body-text pixel-side-quest-description">{quest.description}</p>
             <div className="pixel-tech-badges">

@@ -32,20 +32,20 @@ TILE_SIZE = 256
 TILE_URL = "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
 USER_AGENT = "tody-portfolio-race-maps/1.0 (todyprasetya@gmail.com)"
 
-# Local start date/time come from Garmin Connect (FIT timestamps are UTC);
+# Official race names from the organisers; local start date/time from Garmin Connect (FIT timestamps are UTC);
 # locations from reverse-geocoding each start point with OSM Nominatim.
 RACES = [
-    {"activity_id": 22096240149, "slug": "sahur-run-2026", "title": "Sahur Run",
+    {"activity_id": 22096240149, "slug": "sahur-run-2026", "title": "SAHURUN 2026",
      "category": "10K", "date": "2026-03-07", "start_local": "00:46", "location": "Central Jakarta, Jakarta"},
-    {"activity_id": 23564878355, "slug": "pocari-run-2026", "title": "Pocari Run",
+    {"activity_id": 23564878355, "slug": "pocari-run-2026", "title": "Pocari Sweat Run Lombok 2026",
      "category": "Full Marathon", "date": "2026-07-12", "start_local": "04:00", "location": "Mandalika, Lombok"},
-    {"activity_id": 23904993074, "slug": "bekasi-marathon-2026", "title": "Bekasi Marathon",
+    {"activity_id": 23904993074, "slug": "bekasi-marathon-2026", "title": "Bekasi Marathon 2026",
      "category": "10K", "date": "2026-08-09", "start_local": "05:46", "location": "Bekasi, West Java"},
-    {"activity_id": 24425826100, "slug": "garmin-run-2026", "title": "Garmin Run",
+    {"activity_id": 24425826100, "slug": "garmin-run-2026", "title": "Garmin Run Marathon Series 2026",
      "category": "Half Marathon", "date": "2026-09-20", "start_local": "04:45", "location": "BSD City, Tangerang"},
-    {"activity_id": 24596004598, "slug": "commuter-line-run-2026", "title": "Commuter Line",
+    {"activity_id": 24596004598, "slug": "commuter-line-run-2026", "title": "Commuter Run 2026",
      "category": "10K", "date": "2026-10-04", "start_local": "05:25", "location": "Central Jakarta, Jakarta"},
-    {"activity_id": 24840925398, "slug": "jrf-2026", "title": "JRF",
+    {"activity_id": 24840925398, "slug": "jrf-2026", "title": "Jakarta Running Festival 2026",
      "category": "10K", "date": "2026-10-25", "start_local": "05:16", "location": "Central Jakarta, Jakarta"},
 ]
 

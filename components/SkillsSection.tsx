@@ -64,12 +64,7 @@ const CATEGORIES: Category[] = [
 export default function SkillsSection() {
   return (
     <section id="skills" className="pixel-skills" aria-label="Skills">
-      <h2
-        className="pixel-heading pixel-heading-responsive"
-        style={{ color: "var(--pixel-highlight)", marginBottom: "1.5rem" }}
-      >
-        SKILLS
-      </h2>
+      <h2 className="pixel-heading pixel-heading-responsive">SKILLS</h2>
       <div className="pixel-panel">
         {CATEGORIES.map((cat) => (
           <div key={cat.title} className="pixel-skill-category">

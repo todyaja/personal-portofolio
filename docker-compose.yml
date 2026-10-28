@@ -1,0 +1,24 @@
+services:
+  # Hot-reloading dev server: docker compose up dev
+  dev:
+    build:
+      context: .
+      target: dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      # Keep the container's Linux node_modules and build cache out of the host mount
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - WATCHPACK_POLLING=true
+
+  # Production build: docker compose up --build prod
+  prod:
+    build:
+      context: .
+      target: runner
+    ports:
+      - "3000:3000"
+    profiles: ["prod"]

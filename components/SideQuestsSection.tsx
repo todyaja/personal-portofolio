@@ -34,7 +34,7 @@ export default function SideQuestsSection() {
       <div className="pixel-side-quests-heading">
         <div>
           <p className="pixel-eyebrow pixel-heading">BEYOND THE DAY JOB</p>
-          <h2 className="pixel-heading" style={{ color: "var(--pixel-highlight)" }}>
+          <h2 className="pixel-heading pixel-heading-responsive" style={{ color: "var(--pixel-highlight)" }}>
             SIDE QUESTS
           </h2>
         </div>

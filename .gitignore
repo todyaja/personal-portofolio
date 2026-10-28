@@ -43,3 +43,7 @@ next-env.d.ts
 
 .vercel
 .env*
+
+# race map build inputs (regenerate with scripts/build-race-maps.py)
+/scripts/race-data/
+/scripts/.tile-cache/

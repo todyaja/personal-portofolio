@@ -1,7 +1,7 @@
 export default function ContactSection() {
   return (
     <section id="contact" className="pixel-contact" aria-label="Contact">
-      <h2 className="pixel-heading pixel-heading-responsive" style={{ textAlign: "center", color: "var(--pixel-highlight)" }}>
+      <h2 className="pixel-heading pixel-heading-responsive" style={{ textAlign: "center" }}>
         CONTACT
       </h2>
 

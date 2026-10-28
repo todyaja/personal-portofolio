@@ -9,6 +9,7 @@ const NAV_LINKS = [
   { href: "/#experience", label: "Experience" },
   { href: "/#skills", label: "Skills" },
   { href: "/#side-quests", label: "Side Quests" },
+  { href: "/#hobbies", label: "Hobbies" },
   { href: "/#education", label: "Education" },
   { href: "/#contact", label: "Contact" },
 ];
@@ -18,6 +19,7 @@ const HREF_TO_SECTION: Record<string, string> = {
   "/#experience": "experience",
   "/#skills": "skills",
   "/#side-quests": "side-quests",
+  "/#hobbies": "hobbies",
   "/#education": "education",
   "/#contact": "contact",
 };
@@ -29,12 +31,13 @@ export default function Navigation() {
   const hamburgerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    const sectionIds = ["hero", "experience", "skills", "side-quests", "education", "contact"];
+    const sectionIds = ["hero", "experience", "skills", "side-quests", "hobbies", "education", "contact"];
     const hrefBySectionId: Record<string, string> = {
       hero: "/#hero",
       experience: "/#experience",
       skills: "/#skills",
       "side-quests": "/#side-quests",
+      hobbies: "/#hobbies",
       education: "/#education",
       contact: "/#contact",
     };

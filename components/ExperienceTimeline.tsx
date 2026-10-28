@@ -7,6 +7,7 @@ type ExperienceEntry = {
   location: string;
   bullets: string[];
   tech: string[];
+  logo?: string;
 };
 
 // Tiny blurred placeholder for progressive loading
@@ -25,10 +26,33 @@ const TECH_LOGOS: Record<string, string> = {
 
 const experiences: ExperienceEntry[] = [
   {
+    company: "Bank Neo Commerce",
+    role: "Software Engineer",
+    duration: "08/2026 - Present",
+    location: "Jakarta",
+    logo: "/assets/logos/neobank.jpg",
+    bullets: [
+      "Design, develop, and maintain banking applications and APIs",
+      "Analyze requirements, troubleshoot bugs, and improve application performance and reliability",
+      "Collaborate with developers, product managers, system analysts, designers, and QA",
+      "Write clean, documented code and participate in code reviews",
+    ],
+    tech: [
+      "Java",
+      "Vue",
+      "Spring",
+      "Kafka",
+      "Elasticsearch",
+      "Kibana",
+      "JumpServer",
+    ],
+  },
+  {
     company: "CIMB NIAGA",
     role: "IT Developer (Full Stack Engineer)",
-    duration: "02/2025 - Present",
+    duration: "02/2025 - 08/2026",
     location: "Tangerang",
+    logo: "/assets/logos/cimb.png",
     bullets: [
       "Designed and implemented new features for the OCTO Connect project",
       "Collaborated cross-functionally with multiple teams",
@@ -51,6 +75,7 @@ const experiences: ExperienceEntry[] = [
     role: "Lead Backend Engineer",
     duration: "09/2024 - 12/2024",
     location: "Jakarta",
+    logo: "/assets/logos/vokraf.png",
     bullets: [
       "Collaborate effectively with cross-functional teams for strategic business decision-making",
       "Provide leadership and guidance on code architecture",
@@ -63,6 +88,7 @@ const experiences: ExperienceEntry[] = [
     role: "Backend Engineer",
     duration: "04/2024 - 09/2024",
     location: "Jakarta",
+    logo: "/assets/logos/vokraf.png",
     bullets: [
       "Revamped the existing API into a microservice architecture",
       "Documented API specifications and microservice interactions using ClickUp",
@@ -87,6 +113,7 @@ const experiences: ExperienceEntry[] = [
     role: "Full Stack Engineer",
     duration: "02/2022 - 02/2024",
     location: "Jakarta",
+    logo: "/assets/logos/binus.png",
     bullets: [
       "Develop, Enhance, and Maintain multiple learning management system projects",
       "Help external teams configure, deploy, and implement changes from dev to production",
@@ -108,6 +135,7 @@ const experiences: ExperienceEntry[] = [
     role: "Backend Engineer",
     duration: "02/2021 - 08/2021",
     location: "Jakarta",
+    logo: "/assets/logos/bci-2.png",
     bullets: [
       "Design and implemented Restful API, improving data accessibility and integration",
       "Implemented schedulers from the database to automatically insert daily production",
@@ -141,17 +169,25 @@ function TechBadge({ name }: { name: string }) {
 export default function ExperienceTimeline() {
   return (
     <section id="experience" className="pixel-experience" aria-label="Experience">
-      <h2
-        className="pixel-heading"
-        style={{ color: "var(--pixel-highlight)", marginBottom: "1.5rem" }}
-      >
-        EXPERIENCE
-      </h2>
+      <h2 className="pixel-heading pixel-heading-responsive">EXPERIENCE</h2>
 
       {experiences.map((exp) => (
         <div key={`${exp.company}-${exp.duration}`} className="pixel-timeline-entry pixel-panel">
           <div className="pixel-timeline-header">
             <span className="pixel-timeline-company pixel-heading">
+              {exp.logo && (
+                <Image
+                  src={exp.logo}
+                  alt={`${exp.company} logo`}
+                  width={32}
+                  height={32}
+                  className="pixel-timeline-logo"
+                  loading="lazy"
+                  placeholder="blur"
+                  blurDataURL={BLUR_PLACEHOLDER}
+                  quality={80}
+                />
+              )}
               {exp.company}
             </span>
             <span className="pixel-timeline-duration pixel-body-text">

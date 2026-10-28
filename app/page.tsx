@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import HeroSection from "@/components/HeroSection";
 import ScrollReveal from "@/components/ScrollReveal";
 import SideQuestsSection from "@/components/SideQuestsSection";
+import HobbiesSection from "@/components/HobbiesSection";
 
 // Lazy-load below-fold components with SSR enabled for SEO
 const ExperienceTimeline = dynamic(
@@ -68,9 +69,12 @@ export default function Home() {
         <SideQuestsSection />
       </ScrollReveal>
       <ScrollReveal staggerIndex={4}>
-        <EducationSection />
+        <HobbiesSection />
       </ScrollReveal>
       <ScrollReveal staggerIndex={5}>
+        <EducationSection />
+      </ScrollReveal>
+      <ScrollReveal staggerIndex={6}>
         <ContactSection />
       </ScrollReveal>
     </>

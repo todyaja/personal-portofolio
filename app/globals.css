@@ -205,6 +205,8 @@ img {
 
 .pixel-body-text {
   font-family: var(--font-pixel-body);
+  /* VT323 is narrow and renders small; 18px reads like ~13px in other fonts */
+  font-size: 1.125rem;
   line-height: 1.6;
   color: var(--pixel-text-primary);
 }
@@ -447,10 +449,19 @@ img {
 }
 
 /* ── Experience Timeline ────────────────────────────────────── */
-.pixel-experience {
-  padding-top: 2rem;
-  margin-bottom: 2rem;
-  min-height: 60vh;
+.pixel-experience,
+.pixel-skills,
+.pixel-side-quests,
+.pixel-hobbies,
+.pixel-education,
+.pixel-contact {
+  padding: 2.5rem 0;
+}
+
+/* Shared section title spacing */
+section > h2.pixel-heading {
+  color: var(--pixel-highlight);
+  margin: 0 0 1.5rem;
 }
 
 .pixel-timeline-entry {
@@ -473,11 +484,23 @@ img {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.8);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pixel-timeline-logo {
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--pixel-border);
+  background: #fff;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .pixel-timeline-duration {
   font-family: var(--font-pixel-body);
-  font-size: 0.625rem;
+  font-size: 1.0625rem;
   color: var(--pixel-text-secondary);
   line-height: 1.6;
 }
@@ -492,7 +515,7 @@ img {
 
 .pixel-timeline-location {
   font-family: var(--font-pixel-body);
-  font-size: 0.625rem;
+  font-size: 1.0625rem;
   color: var(--pixel-text-secondary);
   margin-bottom: 0.75rem;
   line-height: 1.6;
@@ -506,7 +529,7 @@ img {
 
 .pixel-timeline-bullets li {
   font-family: var(--font-pixel-body);
-  font-size: 0.625rem;
+  font-size: 1.125rem;
   padding-left: 1rem;
   position: relative;
   margin-bottom: 0.5rem;
@@ -536,7 +559,7 @@ img {
   align-items: center;
   gap: 0.25rem;
   padding: 0.25rem 0.5rem;
-  font-size: 0.5rem;
+  font-size: 0.5625rem;
   font-family: var(--font-pixel-heading);
   background: var(--pixel-accent);
   border: 1px solid var(--pixel-border);
@@ -583,12 +606,6 @@ img {
 }
 
 /* ── Skills Section ─────────────────────────────────────────── */
-.pixel-skills {
-  padding-top: 2rem;
-  margin-bottom: 2rem;
-  min-height: 60vh;
-}
-
 .pixel-skill-category {
   margin-bottom: 1.5rem;
 }
@@ -638,7 +655,7 @@ img {
 
 .pixel-skill-item span {
   font-family: var(--font-pixel-heading);
-  font-size: 0.5rem;
+  font-size: 0.5625rem;
   color: var(--pixel-text-primary);
   text-align: center;
   text-transform: uppercase;
@@ -652,12 +669,6 @@ img {
 }
 
 /* ── Education Section ──────────────────────────────────────── */
-.pixel-education {
-  padding-top: 2rem;
-  margin-bottom: 2rem;
-  min-height: 60vh;
-}
-
 .pixel-education-card {
   display: flex;
   flex-direction: column;
@@ -708,13 +719,13 @@ img {
 }
 
 .pixel-education-university {
-  font-size: 0.625rem;
+  font-size: 1.125rem;
   color: var(--pixel-text-primary);
   margin-bottom: 0.5rem;
 }
 
 .pixel-education-honor {
-  font-size: 0.625rem;
+  font-size: 1.125rem;
   color: var(--pixel-success);
   margin-bottom: 0.25rem;
 }
@@ -725,23 +736,17 @@ img {
 }
 
 .pixel-education-gpa {
-  font-size: 0.625rem;
+  font-size: 1.125rem;
   color: var(--pixel-text-secondary);
 }
 
 /* ── Contact Section ────────────────────────────────────────── */
-.pixel-contact {
-  padding-top: 2rem;
-  margin-bottom: 2rem;
-  min-height: 60vh;
-}
-
 .pixel-contact-card {
   text-align: center;
 }
 
 .pixel-contact-intro {
-  font-size: 0.625rem;
+  font-size: 1.25rem;
   color: var(--pixel-text-secondary);
   margin-bottom: 1.5rem;
 }
@@ -780,14 +785,14 @@ img {
 
 .pixel-contact-label {
   font-family: var(--font-pixel-heading);
-  font-size: 0.5rem;
+  font-size: 0.625rem;
   color: var(--pixel-text-secondary);
   text-transform: uppercase;
 }
 
 .pixel-contact-link {
   font-family: var(--font-pixel-body);
-  font-size: 0.625rem;
+  font-size: 1.125rem;
   color: var(--pixel-highlight);
   text-decoration: none;
   border-bottom: 1px dashed var(--pixel-highlight);
@@ -800,7 +805,7 @@ img {
 
 .pixel-contact-value {
   font-family: var(--font-pixel-body);
-  font-size: 0.625rem;
+  font-size: 1.125rem;
   color: var(--pixel-text-primary);
 }
 
@@ -808,17 +813,11 @@ img {
   margin-top: 2rem;
   padding-top: 1rem;
   border-top: 1px solid var(--pixel-border);
-  font-size: 0.5rem;
+  font-size: 1rem;
   color: var(--pixel-text-secondary);
 }
 
 /* -- Side Quests -- */
-.pixel-side-quests {
-  padding-top: 2rem;
-  margin-bottom: 2rem;
-  min-height: 40vh;
-}
-
 .pixel-side-quests-heading {
   display: flex;
   align-items: end;
@@ -829,7 +828,7 @@ img {
 
 .pixel-eyebrow {
   color: var(--pixel-text-secondary);
-  font-size: 0.5rem;
+  font-size: 0.625rem;
   margin: 0 0 0.75rem;
 }
 
@@ -841,7 +840,7 @@ img {
   max-width: 24rem;
   margin: 0;
   color: var(--pixel-text-secondary);
-  font-size: 0.625rem;
+  font-size: 1.125rem;
 }
 
 .pixel-side-quests-grid {
@@ -872,7 +871,7 @@ img {
 
 .pixel-side-quest-type {
   color: var(--pixel-success);
-  font-size: 0.5rem;
+  font-size: 0.625rem;
 }
 
 .pixel-side-quest-title {
@@ -884,7 +883,7 @@ img {
 .pixel-side-quest-description {
   max-width: 42rem;
   color: var(--pixel-text-secondary);
-  font-size: 0.75rem;
+  font-size: 1.1875rem;
   margin-bottom: 1rem;
 }
 
@@ -1020,7 +1019,7 @@ img {
   padding: 0.6rem 0.8rem;
   color: var(--pixel-text-primary);
   background: var(--pixel-accent);
-  font-size: 0.5rem;
+  font-size: 0.625rem;
   text-decoration: none;
 }
 
@@ -1320,6 +1319,281 @@ img {
   .pixel-scroll-reveal {
     opacity: 1;
     transform: none;
+    transition: none;
+  }
+}
+
+/* ── Hobbies Section ────────────────────────────────────────── */
+.pixel-hobby-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.pixel-hobby-title {
+  color: var(--pixel-text-primary);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.pixel-hobby-tagline {
+  color: var(--pixel-text-secondary);
+  font-size: 1.125rem;
+  margin: 0;
+}
+
+.pixel-carousel:focus-visible {
+  outline: 2px solid var(--pixel-highlight);
+  outline-offset: 4px;
+}
+
+.pixel-carousel-viewport {
+  overflow: hidden;
+}
+
+.pixel-carousel-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.pixel-carousel-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
+/* Hide off-screen slides once the slide animation has finished */
+.pixel-carousel-slide[aria-hidden="true"] {
+  visibility: hidden;
+  transition: visibility 0s 0.5s;
+}
+
+.pixel-carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.pixel-carousel-controls .pixel-btn {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.75rem;
+}
+
+.pixel-carousel-dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.pixel-carousel-dots button {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  background: var(--pixel-accent);
+  border: 2px solid var(--pixel-border);
+  cursor: pointer;
+}
+
+.pixel-carousel-dots button.is-active {
+  background: var(--pixel-highlight);
+}
+
+.pixel-race-slide {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 900px) {
+  .pixel-race-slide {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    /* Don't stretch the map: it must keep the image's aspect ratio */
+    align-items: center;
+  }
+}
+
+.pixel-race-map {
+  position: relative;
+  /* aspect-ratio applies to the content box, so the border doesn't skew it */
+  box-sizing: content-box;
+  width: calc(100% - 6px);
+  overflow: hidden;
+  background: var(--pixel-bg-dark);
+  border: 3px solid var(--pixel-border);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+.pixel-race-map img {
+  object-fit: cover;
+  filter: saturate(0.85);
+}
+
+.pixel-race-map svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.pixel-race-route,
+.pixel-race-route-casing {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.pixel-race-route-casing {
+  stroke: #fff;
+  stroke-width: 9;
+}
+
+.pixel-race-route {
+  stroke: var(--pixel-border);
+  stroke-width: 5;
+}
+
+.pixel-race-marker {
+  stroke: #fff;
+  stroke-width: 3;
+}
+
+.pixel-race-marker--start {
+  fill: var(--pixel-success);
+}
+
+.pixel-race-marker--finish {
+  fill: var(--pixel-bg-dark);
+}
+
+.pixel-race-map-legend {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 4px 8px;
+  font-family: var(--font-pixel-heading);
+  font-size: 0.5625rem;
+  color: var(--pixel-text-primary);
+  background: rgba(26, 26, 46, 0.85);
+}
+
+.pixel-race-map-legend i {
+  width: 8px;
+  height: 8px;
+  border: 1px solid #fff;
+  border-radius: 50%;
+}
+
+.pixel-race-map-legend i.pixel-race-marker--start {
+  background: var(--pixel-success);
+}
+
+.pixel-race-map-legend i.pixel-race-marker--finish {
+  background: var(--pixel-bg-dark);
+}
+
+.pixel-race-map-credit {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  color: #333;
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.pixel-race-details {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.pixel-race-category {
+  align-self: flex-start;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.625rem;
+  color: var(--pixel-bg-dark);
+  background: var(--pixel-highlight);
+  text-shadow: none;
+}
+
+.pixel-race-title {
+  color: var(--pixel-highlight);
+  font-size: 1rem;
+  margin: 0.75rem 0 0.25rem;
+}
+
+.pixel-race-meta {
+  color: var(--pixel-text-secondary);
+  font-size: 1.125rem;
+  margin: 0 0 1rem;
+}
+
+.pixel-race-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.pixel-race-stats div {
+  padding: 0.5rem 0.6rem;
+  background: var(--pixel-bg-dark);
+  border: 2px solid var(--pixel-accent);
+}
+
+.pixel-race-stats .pixel-race-stat--wide {
+  grid-column: 1 / -1;
+}
+
+.pixel-race-stats dd {
+  margin: 0.25rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--pixel-text-primary);
+}
+
+.pixel-race-label {
+  display: block;
+  font-family: var(--font-pixel-heading);
+  font-size: 0.5625rem;
+  letter-spacing: 0.05em;
+  color: var(--pixel-text-secondary);
+}
+
+.pixel-race-splits {
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+.pixel-race-splits-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 48px;
+  margin-top: 0.4rem;
+}
+
+.pixel-race-splits-bars i {
+  flex: 1;
+  min-width: 2px;
+  background: var(--pixel-accent);
+  border-top: 2px solid var(--pixel-border);
+}
+
+.pixel-race-splits-bars i.is-fastest {
+  background: var(--pixel-highlight);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-carousel-track {
     transition: none;
   }
 }

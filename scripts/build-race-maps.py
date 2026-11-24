@@ -12,6 +12,7 @@ Run:    python scripts/build-race-maps.py   (needs Pillow)
 import io
 import json
 import math
+import os
 import time
 import urllib.request
 from pathlib import Path
@@ -30,7 +31,8 @@ MAX_ZOOM = 17
 PADDING = 56
 TILE_SIZE = 256
 TILE_URL = "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
-USER_AGENT = "tody-portfolio-race-maps/1.0 (todyprasetya@gmail.com)"
+# OSM asks for an identifying User-Agent; set RACE_MAPS_CONTACT to add a contact address.
+USER_AGENT = "portfolio-race-maps/1.0" + (f" ({os.environ['RACE_MAPS_CONTACT']})" if os.environ.get("RACE_MAPS_CONTACT") else "")
 
 # Official race names from the organisers; local start date/time from Garmin Connect (FIT timestamps are UTC);
 # locations from reverse-geocoding each start point with OSM Nominatim.
@@ -47,6 +49,10 @@ RACES = [
      "category": "10K", "date": "2026-10-04", "start_local": "05:25", "location": "Central Jakarta, Jakarta"},
     {"activity_id": 24840925398, "slug": "jrf-2026", "title": "Jakarta Running Festival 2026",
      "category": "10K", "date": "2026-10-25", "start_local": "05:16", "location": "Central Jakarta, Jakarta"},
+    {"activity_id": 24922866580, "slug": "jakarta-one-running-series-2026", "title": "Jakarta One Running Series 2026",
+     "category": "5K", "date": "2026-11-01", "start_local": "06:32", "location": "SCBD, South Jakarta"},
+    {"activity_id": 25157456261, "slug": "summarecon-bandung-run-fest-2026", "title": "Summarecon Bandung Run Fest 2026",
+     "category": "Half Marathon", "date": "2026-11-22", "start_local": "05:00", "location": "Gedebage, Bandung"},
 ]
 
 SEMICIRCLE_TO_DEG = 180 / 2**31
@@ -193,10 +199,19 @@ def main():
     IMAGE_DIR.mkdir(parents=True, exist_ok=True)
     DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
 
+    # Races without a raw input file keep their previously built entry (and map image)
+    existing = {}
+    if DATA_FILE.exists():
+        existing = {r["slug"]: r for r in json.loads(DATA_FILE.read_text(encoding="utf-8"))}
+
     races = []
     for race in RACES:
         if not (INPUT_DIR / f"{race['activity_id']}.json").exists():
-            print(f"skip {race['title']}: no input file")
+            if race["slug"] in existing:
+                print(f"keep {race['title']}: no input file, reusing existing entry")
+                races.append(existing[race["slug"]])
+            else:
+                print(f"skip {race['title']}: no input file")
             continue
         built = build_race(race)
         print(f"{race['title']}: zoom {built['map']['zoom']:.2f}, {len(built['map']['route'])} route points")

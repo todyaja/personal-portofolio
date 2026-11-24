@@ -25,8 +25,10 @@ function formatDate(isoDate: string) {
   return `${day} ${MONTHS[month - 1]} ${year}`;
 }
 
-function RaceMap({ race }: { race: RunningRace }) {
+function RaceMap({ race, sizer = false }: { race: RunningRace; sizer?: boolean }) {
   const { src, width, height, route } = race.map;
+  // Height-only copy: the aspect ratio alone fixes its size, so skip the image and route
+  if (sizer) return <div className="pixel-race-map" style={{ aspectRatio: `${width} / ${height}` }} />;
   const points = route.map(([x, y]) => `${x},${y}`).join(" ");
   const [startX, startY] = route[0];
   const [endX, endY] = route[route.length - 1];
@@ -81,7 +83,99 @@ function SplitBars({ splits }: { splits: number[] }) {
   );
 }
 
-function RaceSlide({ race }: { race: RunningRace }) {
+// Chip order, shortest distance first; any other category is appended after these
+const CATEGORY_ORDER = ["5K", "10K", "Half Marathon", "Full Marathon"];
+const CATEGORY_SHORT: Record<string, string> = { "Half Marathon": "HALF", "Full Marathon": "FULL" };
+
+type CategorySummary = {
+  category: string;
+  count: number;
+  /** Fastest race at this distance: its slide gets the RACE PB badge */
+  best: RunningRace;
+};
+
+function summarizeCategories(races: RunningRace[]): CategorySummary[] {
+  const byCategory = new Map<string, CategorySummary>();
+  for (const race of races) {
+    const entry = byCategory.get(race.category);
+    if (!entry) byCategory.set(race.category, { category: race.category, count: 1, best: race });
+    else {
+      entry.count++;
+      if (race.stats.movingTimeSec < entry.best.stats.movingTimeSec) entry.best = race;
+    }
+  }
+  const rank = (c: string) => (CATEGORY_ORDER.includes(c) ? CATEGORY_ORDER.indexOf(c) : CATEGORY_ORDER.length);
+  return [...byCategory.values()].sort((a, b) => rank(a.category) - rank(b.category));
+}
+
+function RaceFilter({
+  races,
+  summaries,
+  active,
+  onChange,
+}: {
+  races: RunningRace[];
+  summaries: CategorySummary[];
+  active: string | null;
+  onChange: (category: string | null) => void;
+}) {
+  return (
+    <div className="pixel-race-filter" role="group" aria-label="Filter races by distance">
+      <button
+        type="button"
+        className="pixel-race-chip"
+        aria-pressed={active === null}
+        onClick={() => onChange(null)}
+      >
+        <span className="pixel-race-chip-name pixel-heading">ALL</span>
+        <span className="pixel-race-chip-count">{races.length} races</span>
+      </button>
+      {summaries.map(({ category, count }) => (
+        <button
+          key={category}
+          type="button"
+          className="pixel-race-chip"
+          aria-pressed={active === category}
+          onClick={() => onChange(category)}
+          aria-label={`${category}: ${count} race${count > 1 ? "s" : ""}`}
+        >
+          <span className="pixel-race-chip-name pixel-heading">{CATEGORY_SHORT[category] ?? category}</span>
+          <span className="pixel-race-chip-count">
+            {count} race{count > 1 ? "s" : ""}
+          </span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function RunningBlock({ hobby }: { hobby: Hobby }) {
+  const [category, setCategory] = useState<string | null>(null);
+  const summaries = summarizeCategories(hobby.items);
+  const pbSlugs = new Set(summaries.map((s) => s.best.slug));
+  const races = category ? hobby.items.filter((r) => r.category === category) : hobby.items;
+
+  return (
+    <>
+      <RaceFilter races={hobby.items} summaries={summaries} active={category} onChange={setCategory} />      {/* Keyed by filter so the carousel starts from the first slide on every change */}
+      <Carousel
+        key={category ?? "all"}
+        label={`${hobby.title} races${category ? `, ${category}` : ""}`}
+        slides={races.map((race) => ({
+          key: race.slug,
+          title: race.title,
+          node: <RaceSlide race={race} isPb={pbSlugs.has(race.slug)} />,
+        }))}
+        // Every race, so the box keeps the tallest race's height whichever filter is active
+        sizers={hobby.items.map((race) => (
+          <RaceSlide key={race.slug} race={race} isPb={pbSlugs.has(race.slug)} sizer />
+        ))}
+      />
+    </>
+  );
+}
+
+function RaceSlide({ race, isPb, sizer = false }: { race: RunningRace; isPb: boolean; sizer?: boolean }) {
   const { stats } = race;
   const details: [string, string | null][] = [
     ["DISTANCE", `${stats.distanceKm.toFixed(2)} km`],
@@ -94,9 +188,16 @@ function RaceSlide({ race }: { race: RunningRace }) {
 
   return (
     <div className="pixel-race-slide">
-      <RaceMap race={race} />
+      <RaceMap race={race} sizer={sizer} />
       <div className="pixel-race-details">
-        <span className="pixel-race-category pixel-heading">{race.category}</span>
+        <div className="pixel-race-badges">
+          <span className="pixel-race-category pixel-heading">{race.category}</span>
+          {isPb && (
+            <span className="pixel-race-pb pixel-heading" title={`Fastest official ${race.category} race`}>
+              RACE PB
+            </span>
+          )}
+        </div>
         <h3 className="pixel-heading pixel-race-title">{race.title}</h3>
         <p className="pixel-body-text pixel-race-meta">{formatDate(race.date)}</p>
         <dl className="pixel-race-stats">
@@ -119,7 +220,16 @@ function RaceSlide({ race }: { race: RunningRace }) {
   );
 }
 
-function Carousel({ label, slides }: { label: string; slides: { key: string; title: string; node: ReactNode }[] }) {
+function Carousel({
+  label,
+  slides,
+  sizers = [],
+}: {
+  label: string;
+  slides: { key: string; title: string; node: ReactNode }[];
+  /** Invisible copies stacked under the track: the viewport is as tall as the tallest one */
+  sizers?: ReactNode[];
+}) {
   const [index, setIndex] = useState(0);
   const touchStartX = useRef<number | null>(null);
   const count = slides.length;
@@ -151,6 +261,11 @@ function Carousel({ label, slides }: { label: string; slides: { key: string; tit
       onTouchEnd={onTouchEnd}
     >
       <div className="pixel-carousel-viewport">
+        {sizers.map((node, i) => (
+          <div key={i} className="pixel-carousel-sizer" aria-hidden="true" inert>
+            {node}
+          </div>
+        ))}
         <div className="pixel-carousel-track" style={{ transform: `translateX(-${index * 100}%)` }}>
           {slides.map((slide, i) => (
             <div
@@ -168,8 +283,9 @@ function Carousel({ label, slides }: { label: string; slides: { key: string; tit
         </div>
       </div>
 
-      {count > 1 && (
-        <div className="pixel-carousel-controls">
+      {/* With a single slide the controls stay in the layout (hidden) so the height doesn't jump */}
+      {count > 0 && (
+        <div className="pixel-carousel-controls" aria-hidden={count < 2} inert={count < 2} data-single={count < 2 || undefined}>
           <button type="button" className="pixel-btn pixel-heading" onClick={() => go(index - 1)} aria-label="Previous race">
             &lt;
           </button>
@@ -197,12 +313,7 @@ function Carousel({ label, slides }: { label: string; slides: { key: string; tit
 function HobbyBlock({ hobby }: { hobby: Hobby }) {
   switch (hobby.type) {
     case "running":
-      return (
-        <Carousel
-          label={`${hobby.title} races`}
-          slides={hobby.items.map((race) => ({ key: race.slug, title: race.title, node: <RaceSlide race={race} /> }))}
-        />
-      );
+      return <RunningBlock hobby={hobby} />;
   }
 }
 

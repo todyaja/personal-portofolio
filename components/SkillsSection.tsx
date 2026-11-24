@@ -1,6 +1,8 @@
 import Image from "next/image";
 
-type Skill = { name: string; logo?: string };
+// Combined entries (e.g. "Git / GitHub") carry one logo per tool.
+// SVG logos: Devicon (MIT) and Simple Icons (CC0); dark marks use their white variant.
+type Skill = { name: string; logos?: string[] };
 
 type Category = { title: string; skills: Skill[] };
 
@@ -12,51 +14,57 @@ const CATEGORIES: Category[] = [
   {
     title: "LANGUAGES",
     skills: [
-      { name: "Go" },
-      { name: "JavaScript" },
-      { name: "Java", logo: "/assets/tech/java.png" },
-      { name: "TypeScript" },
+      { name: "Go", logos: ["/assets/tech/go.svg"] },
+      { name: "JavaScript", logos: ["/assets/tech/javascript.svg"] },
+      { name: "Java", logos: ["/assets/tech/java.png"] },
+      { name: "TypeScript", logos: ["/assets/tech/typescript.svg"] },
     ],
   },
   {
     title: "DATABASES",
     skills: [
-      { name: "PostgreSQL", logo: "/assets/tech/postgre.png" },
-      { name: "SQL Server" },
-      { name: "Oracle DB", logo: "/assets/tech/oracle.png" },
-      { name: "Cosmos DB" },
+      { name: "PostgreSQL", logos: ["/assets/tech/postgre.png"] },
+      { name: "SQL Server", logos: ["/assets/tech/sqlserver.svg"] },
+      { name: "Oracle DB", logos: ["/assets/tech/oracle.png"] },
+      { name: "Cosmos DB", logos: ["/assets/tech/cosmosdb.svg"] },
     ],
   },
   {
     title: "FRAMEWORKS & TOOLS",
     skills: [
-      { name: "NextJS / React", logo: "/assets/tech/reactjs.png" },
-      { name: ".NET Core", logo: "/assets/tech/net.png" },
-      { name: "NestJS" },
-      { name: "CodeIgniter" },
-      { name: "Kotlin", logo: "/assets/tech/kotlin.png" },
-      { name: "PHP", logo: "/assets/tech/php.png" },
+      { name: "NextJS / React", logos: ["/assets/tech/nextjs.svg", "/assets/tech/reactjs.png"] },
+      { name: ".NET Core", logos: ["/assets/tech/net.png"] },
+      { name: "NestJS", logos: ["/assets/tech/nestjs.svg"] },
+      { name: "CodeIgniter", logos: ["/assets/tech/codeigniter.svg"] },
+      { name: "Kotlin", logos: ["/assets/tech/kotlin.png"] },
+      { name: "PHP", logos: ["/assets/tech/php.png"] },
     ],
   },
   {
     title: "INFRASTRUCTURE & MESSAGING",
     skills: [
-      { name: "Docker" },
-      { name: "Kafka" },
-      { name: "RabbitMQ" },
-      { name: "Redis" },
-      { name: "Azure Function" },
-      { name: "Azure DevOps" },
-      { name: "Red Hat OpenShift" },
+      { name: "Docker", logos: ["/assets/tech/docker.svg"] },
+      { name: "Kafka", logos: ["/assets/tech/kafka.svg"] },
+      { name: "RabbitMQ", logos: ["/assets/tech/rabbitmq.svg"] },
+      { name: "Redis", logos: ["/assets/tech/redis.svg"] },
+      { name: "Azure Function", logos: ["/assets/tech/azure.svg"] },
+      { name: "Azure DevOps", logos: ["/assets/tech/azuredevops.svg"] },
+      { name: "Red Hat OpenShift", logos: ["/assets/tech/openshift.svg"] },
     ],
   },
   {
     title: "TOOLS & PLATFORMS",
     skills: [
-      { name: "Git / GitHub / BitBucket / Gitlab" },
-      { name: "Jira / Confluence / ClickUp" },
-      { name: "Jest" },
-      { name: "Drizzle-ORM" },
+      {
+        name: "Git / GitHub / BitBucket / Gitlab",
+        logos: ["/assets/tech/git.svg", "/assets/tech/github.svg", "/assets/tech/bitbucket.svg", "/assets/tech/gitlab.svg"],
+      },
+      {
+        name: "Jira / Confluence / ClickUp",
+        logos: ["/assets/tech/jira.svg", "/assets/tech/confluence.svg", "/assets/tech/clickup.svg"],
+      },
+      { name: "Jest", logos: ["/assets/tech/jest.svg"] },
+      { name: "Drizzle-ORM", logos: ["/assets/tech/drizzle.svg"] },
     ],
   },
 ];
@@ -75,20 +83,27 @@ export default function SkillsSection() {
               {cat.skills.map((skill) => (
                 <div
                   key={skill.name}
-                  className={`pixel-skill-item${skill.logo ? "" : " text-only"}`}
+                  className={`pixel-skill-item${skill.logos?.length ? "" : " text-only"}`}
                 >
-                  {skill.logo ? (
-                    <Image
-                      src={skill.logo}
-                      alt={skill.name}
-                      width={32}
-                      height={32}
-                      style={{ imageRendering: "pixelated" }}
-                      loading="lazy"
-                      placeholder="blur"
-                      blurDataURL={BLUR_PLACEHOLDER}
-                      quality={80}
-                    />
+                  {skill.logos?.length ? (
+                    <div className="pixel-skill-logos">
+                      {skill.logos.map((logo, i) => (
+                        <Image
+                          key={logo}
+                          src={logo}
+                          // The name below labels the tile; extra logos are decorative
+                          alt={i === 0 ? skill.name : ""}
+                          width={32}
+                          height={32}
+                          // Upscale small PNGs crisply; SVGs stay smooth
+                          style={logo.endsWith(".png") ? { imageRendering: "pixelated" } : undefined}
+                          loading="lazy"
+                          placeholder="blur"
+                          blurDataURL={BLUR_PLACEHOLDER}
+                          quality={80}
+                        />
+                      ))}
+                    </div>
                   ) : null}
                   <span>{skill.name}</span>
                 </div>

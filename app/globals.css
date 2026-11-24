@@ -646,11 +646,22 @@ section > h2.pixel-heading {
   box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.5);
 }
 
+.pixel-skill-logos {
+  display: flex;
+  justify-content: center;
+  gap: 0.35rem;
+}
+
 .pixel-skill-item img {
   width: 32px;
   height: 32px;
-  image-rendering: pixelated;
   object-fit: contain;
+}
+
+/* Combined entries: smaller logos so 3-4 fit in one tile */
+.pixel-skill-logos:has(img:nth-child(3)) img {
+  width: 24px;
+  height: 24px;
 }
 
 .pixel-skill-item span {
@@ -1364,7 +1375,24 @@ section > h2.pixel-heading {
 }
 
 .pixel-carousel-viewport {
+  display: grid;
   overflow: hidden;
+}
+
+/* Sizers and the track share one grid cell: the cell grows to the tallest of them */
+.pixel-carousel-sizer,
+.pixel-carousel-track {
+  grid-area: 1 / 1;
+  min-width: 0;
+}
+
+.pixel-carousel-sizer {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.pixel-carousel-controls[data-single] {
+  visibility: hidden;
 }
 
 .pixel-carousel-track {
@@ -1527,6 +1555,80 @@ section > h2.pixel-heading {
   display: flex;
   flex-direction: column;
   min-width: 0;
+}
+
+.pixel-race-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.pixel-race-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+  padding: 0.45rem 0.7rem;
+  color: var(--pixel-text-primary);
+  background: var(--pixel-bg-dark);
+  border: 2px solid var(--pixel-accent);
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: transform 0.1s, border-color 0.1s;
+}
+
+.pixel-race-chip:hover {
+  transform: translate(-1px, -1px);
+  border-color: var(--pixel-border);
+}
+
+.pixel-race-chip:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.pixel-race-chip:focus-visible {
+  outline: 2px dashed var(--pixel-highlight);
+  outline-offset: 2px;
+}
+
+.pixel-race-chip[aria-pressed="true"] {
+  border-color: var(--pixel-highlight);
+  background: var(--pixel-accent);
+}
+
+.pixel-race-chip-name {
+  font-size: 0.625rem;
+}
+
+.pixel-race-chip[aria-pressed="true"] .pixel-race-chip-name {
+  color: var(--pixel-highlight);
+}
+
+.pixel-race-chip-count {
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--pixel-text-secondary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-race-chip {
+    transition: none;
+  }
+}
+
+.pixel-race-badges {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.pixel-race-pb {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.625rem;
+  color: var(--pixel-bg-dark);
+  background: var(--pixel-success);
+  text-shadow: none;
 }
 
 .pixel-race-category {
